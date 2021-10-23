@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:bubbles_pop/game_over.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'main.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
 class MyApp extends StatelessWidget {
@@ -41,7 +40,7 @@ class _GamePageState extends State<GamePage> {
 
   CountDownController _controller = CountDownController();
 
-  int _counter = 3;
+  int _counter = 4;
   double ballSize = 60;
 
   double xPos = 0;
@@ -87,8 +86,8 @@ class _GamePageState extends State<GamePage> {
         ballSize = 35;
       }
 
-      _controller.restart(duration: 3);
-      player.setAsset('lib/assets/sounds/dong-sound.mp3');
+      _controller.restart(duration: _counter);
+      player.setAsset('lib/assets/sounds/ding-sound.mp3');
       player.setSpeed(2.0);
       player.play();
     });
@@ -101,13 +100,28 @@ class _GamePageState extends State<GamePage> {
         children: [
           Container(
             color: Colors.blueGrey[50],
-            alignment: const Alignment(0.9, -1),
-            child: Text(
-              "Puanın: " + score.toString(),
-              style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500),
+            alignment: const Alignment(0.95, -0.98),
+            child: FittedBox(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(5, 1, 5, 1),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.amber,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(
+                      Icons.star,
+                    ),
+                    Text(
+                      score.toString(),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           Container(
@@ -145,7 +159,7 @@ class _GamePageState extends State<GamePage> {
                   textFormat: CountdownTextFormat.S,
                   isReverse: true,
                   isReverseAnimation: true,
-                  isTimerTextShown: true,
+                  isTimerTextShown: false,
                   autoStart: true,
                   onStart: () {
                     //print('Countdown Started');

@@ -21,15 +21,23 @@ class GameOver extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 SizedBox(height: 30),
-                Text(
-                  "Puanın : " + scoreCount,
-                  style: TextStyle(fontSize: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.star,
+                      size: 40,
+                    ),
+                    Text(
+                      scoreCount,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 30),
                 ElevatedButton(
                   child: const Text("Tekrar Oyna"),
                   onPressed: () {
-                    
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const MyApp()),
