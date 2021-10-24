@@ -1,80 +1,63 @@
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
-import 'game.dart';
-import 'info.dart';
+import 'home.dart';
 
 void main() {
   //SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  runApp(const StartGame());
+  runApp(const SplashPage());
 }
 
-class StartGame extends StatefulWidget {
-  const StartGame({Key? key}) : super(key: key);
+class SplashPage extends StatefulWidget {
+  const SplashPage({Key? key}) : super(key: key);
 
   @override
-  _StartGameState createState() => _StartGameState();
+  _SplashPageState createState() => _SplashPageState();
 }
 
-class _StartGameState extends State<StartGame> {
-
-    
-
+class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Builder(builder: (context) {
-        return Scaffold(
-          body: Builder(builder: (context) {
-            return Container(
-              color: Colors.amber,
-              child: Stack(
-                children: [
-                  Container(
-                    alignment: const Alignment(0, -0.4),
-                    child: Text("LOGO",
-                        style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.w800)),
-                  ),
-                  Container(
-                    alignment: const Alignment(0, 0.5),
-                    child: ElevatedButton(
-                      child: const Text("Oyuna Başla"),
-                      onPressed: ()  {
-                      
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MyApp()),
-                        );
-                      },
-                    ),
-                  ),
-                  Container(
-                    alignment: const Alignment(0.9, 0.9),
-                    child: InkWell(
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      child: const Icon(
-                        Icons.info,
-                        color: Colors.deepOrange,
-                        size: 32.0,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const InfoPage()),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
-        );
-      }),
-    );
+        debugShowCheckedModeBanner: false,
+        home: Builder(builder: (context) {
+          return Scaffold(
+              body: Center(
+            child: Stack(
+              children: [
+                Image.asset('lib/assets/images/splash-screen-img.gif'),
+                CircularCountDownTimer(
+                  duration: 3,
+                  initialDuration: 0,
+                  controller: CountDownController(),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  ringColor: Colors.transparent,
+                  ringGradient: null,
+                  fillColor: Colors.transparent,
+                  fillGradient: null,
+                  backgroundColor: null,
+                  backgroundGradient: null,
+                  textStyle: TextStyle(
+                      fontSize: 33.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                  textFormat: CountdownTextFormat.S,
+                  isReverse: true,
+                  isReverseAnimation: true,
+                  isTimerTextShown: false,
+                  autoStart: true,
+                  onStart: () {
+                    //print('Countdown Started');
+                  },
+                  onComplete: () {
+                    //print('Countdown Ended');
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => StartGame()));
+                  },
+                ),
+              ],
+            ),
+          ));
+        }));
   }
 }
