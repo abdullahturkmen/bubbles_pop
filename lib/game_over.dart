@@ -1,3 +1,4 @@
+import 'package:bubbles_pop/home.dart';
 import 'package:flutter/material.dart';
 
 import 'game.dart';
@@ -35,14 +36,33 @@ class GameOver extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 30),
-                ElevatedButton(
-                  child: const Text("Tekrar Oyna"),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MyApp()),
-                    );
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      child: const Text("Tekrar Oyna"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MyApp()),
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      width: 25,
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.grey),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const StartGame()));
+                        },
+                        child: Text("Anasayfa"))
+                  ],
                 ),
               ],
             ),

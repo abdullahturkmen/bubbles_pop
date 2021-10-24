@@ -32,6 +32,7 @@ class _StartGameState extends State<StartGame> {
                     alignment: const Alignment(0, 0.5),
                     child: ElevatedButton(
                       child: const Text("Oyuna Başla"),
+                      style: ElevatedButton.styleFrom(primary: Colors.green),
                       onPressed: () {
                         Navigator.push(
                           context,

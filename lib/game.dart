@@ -76,14 +76,17 @@ class _GamePageState extends State<GamePage> {
         ballSize = ballSize;
       } else if (score < 20) {
         ballSize = 55;
+        _counter = 3;
       } else if (score < 30) {
         ballSize = 50;
       } else if (score < 40) {
         ballSize = 45;
+        _counter = 2;
       } else if (score < 50) {
         ballSize = 40;
       } else {
         ballSize = 35;
+        _counter = 1;
       }
 
       _controller.restart(duration: _counter);
