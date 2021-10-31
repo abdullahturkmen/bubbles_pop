@@ -24,9 +24,10 @@ class _StartGameState extends State<StartGame> {
                 children: [
                   Container(
                     alignment: const Alignment(0, -0.4),
-                    child: Text("LOGO",
-                        style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.w800)),
+                    child: Image.asset(
+                      'lib/assets/images/bubbles-pop-logo.png',
+                      width: MediaQuery.of(context).size.width * 0.75,
+                    ),
                   ),
                   Container(
                     alignment: const Alignment(0, 0.5),
