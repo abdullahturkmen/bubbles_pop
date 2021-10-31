@@ -12,7 +12,7 @@ class GameOver extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          color: Colors.amber,
+          color: Color(0xFFF0EEE1),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +40,16 @@ class GameOver extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color(0xFF151B2B)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(
+                                          color: Color(0xFF151B2B),
+                                          width: 2.0)))),
                       child: const Text("Tekrar Oyna"),
                       onPressed: () {
                         Navigator.push(
@@ -54,7 +63,15 @@ class GameOver extends StatelessWidget {
                       width: 25,
                     ),
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.grey),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.grey),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(
+                                        color: Colors.grey, width: 2.0)))),
                         onPressed: () {
                           Navigator.pushReplacement(
                               context,

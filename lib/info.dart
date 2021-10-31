@@ -7,7 +7,7 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.amber,
+        color: Color(0xFFF0EEE1),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

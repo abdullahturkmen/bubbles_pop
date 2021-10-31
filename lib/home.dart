@@ -19,7 +19,7 @@ class _StartGameState extends State<StartGame> {
         return Scaffold(
           body: Builder(builder: (context) {
             return Container(
-              color: Colors.amber,
+              color: Color(0xFFF0EEE1),
               child: Stack(
                 children: [
                   Container(
@@ -32,8 +32,18 @@ class _StartGameState extends State<StartGame> {
                   Container(
                     alignment: const Alignment(0, 0.5),
                     child: ElevatedButton(
-                      child: const Text("Oyuna Başla"),
-                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      child: const Text("Oyuna Başla",
+                          style: TextStyle(fontSize: 18)),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color(0xFF151B2B)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(
+                                          color: Color(0xFF151B2B),
+                                          width: 2.0)))),
                       onPressed: () {
                         Navigator.push(
                           context,

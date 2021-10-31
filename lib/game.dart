@@ -102,7 +102,7 @@ class _GamePageState extends State<GamePage> {
       child: Stack(
         children: [
           Container(
-            color: Colors.blueGrey[50],
+            color: Color(0xFFF0EEE1),
             alignment: const Alignment(0.95, -0.98),
             child: FittedBox(
               child: Container(
