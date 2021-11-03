@@ -5,6 +5,7 @@ import 'package:bubbles_pop/game_over.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:confetti/confetti.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -38,6 +39,8 @@ class _GamePageState extends State<GamePage> {
 
   //Navigator.push(context, MaterialPageRoute(builder: (context) => GameOver()));
 
+  late ConfettiController _controllerCenter;
+
   CountDownController _controller = CountDownController();
 
   int _counter = 4;
@@ -65,11 +68,20 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     super.initState();
     _startSound();
+    _controllerCenter =
+        ConfettiController(duration: const Duration(milliseconds: 10));
+  }
+
+  @override
+  void dispose() {
+    _controllerCenter.dispose();
+    super.dispose();
   }
 
   int score = 0;
   void changePosition() {
     setState(() {
+      _controllerCenter.play();
       bubblePosition();
       score++;
       if (score < 10) {
@@ -129,6 +141,27 @@ class _GamePageState extends State<GamePage> {
           ),
           Container(
             alignment: Alignment(xPos, yPos),
+            child: ConfettiWidget(
+              confettiController: _controllerCenter,
+              blastDirectionality: BlastDirectionality
+                  .explosive, // don't specify a direction, blast randomly
+              maxBlastForce: 5, // set a lower max blast force
+              minBlastForce: 2, // set a lower min blast force
+              emissionFrequency: 1,
+              numberOfParticles: 15,
+              //gravity: 0.005, // gravity - or fall speed
+              shouldLoop: false,
+              colors: const [
+                Colors.green,
+                Colors.blue,
+                Colors.pink,
+                Colors.orange,
+                Colors.purple
+              ], // manually specify the colors to be used
+            ),
+          ),
+          Container(
+            alignment: Alignment(xPos, yPos),
             child: Container(
               width: ballSize,
               height: ballSize,
@@ -168,6 +201,7 @@ class _GamePageState extends State<GamePage> {
                     //print('Countdown Started');
                   },
                   onComplete: () {
+                    _controllerCenter.play();
                     player.setAsset('lib/assets/sounds/game-over-sound.mp3');
                     player.setSpeed(2.0);
                     player.play();
