@@ -102,7 +102,7 @@ class _GamePageState extends State<GamePage> {
       }
 
       _controller.restart(duration: _counter);
-      player.setAsset('lib/assets/sounds/ding-sound.mp3');
+      player.setAsset('lib/assets/sounds/dong-sound.mp3');
       player.setSpeed(2.0);
       player.play();
     });

@@ -1,8 +1,7 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'home.dart';
-
-
 
 void main() {
   //SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -18,6 +17,13 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -26,7 +32,34 @@ class _SplashPageState extends State<SplashPage> {
               body: Center(
             child: Stack(
               children: [
-                Image.asset('lib/assets/images/splash-screen-img.gif'),
+                Center(
+                  child: Container(
+                    alignment: Alignment(0, 0),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(
+                            'lib/assets/images/splash-screen-gradient-bg.jpeg'),
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Container(
+                    alignment: Alignment(0, 0),
+                    width: MediaQuery.of(context).size.width / 2,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF0EEE1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'lib/assets/images/bubbles-pop-logo.png',
+                      width: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                  ),
+                ),
                 CircularCountDownTimer(
                   duration: 3,
                   initialDuration: 0,

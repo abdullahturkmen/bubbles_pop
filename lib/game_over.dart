@@ -41,16 +41,28 @@ class GameOver extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xFF151B2B)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(
-                                          color: Color(0xFF151B2B),
-                                          width: 2.0)))),
-                      child: const Text("Tekrar Oyna"),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Color(0xFF151B2B)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(
+                                color: Color(0xFF151B2B), width: 2.0),
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text("Tekrar Oyna"),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          const Icon(
+                            Icons.replay,
+                          ),
+                        ],
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -64,21 +76,34 @@ class GameOver extends StatelessWidget {
                     ),
                     ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.grey),
-                            shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    side: BorderSide(
-                                        color: Colors.grey, width: 2.0)))),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.grey),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.grey, width: 2.0),
+                            ),
+                          ),
+                        ),
                         onPressed: () {
                           Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const StartGame()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const StartGame()),
+                          );
                         },
-                        child: Text("Anasayfa"))
+                        child: Row(
+                          children: [
+                            Text("Anasayfa"),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            const Icon(
+                              Icons.home,
+                            ),
+                          ],
+                        ))
                   ],
                 ),
               ],

@@ -32,8 +32,20 @@ class _StartGameState extends State<StartGame> {
                   Container(
                     alignment: const Alignment(0, 0.5),
                     child: ElevatedButton(
-                      child: const Text("Oyuna Başla",
-                          style: TextStyle(fontSize: 18)),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Oyuna Başla",
+                              style: TextStyle(fontSize: 18)),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          const Icon(
+                            Icons.play_arrow,
+                          ),
+                        ],
+                      ),
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Color(0xFF151B2B)),
