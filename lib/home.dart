@@ -1,3 +1,4 @@
+import 'package:bubbles_pop/scores.dart';
 import 'package:flutter/material.dart';
 
 import 'game.dart';
@@ -66,21 +67,20 @@ class _StartGameState extends State<StartGame> {
                     ),
                   ),
                   Container(
-                    alignment: const Alignment(0.9, 0.9),
+                    alignment: const Alignment(0.9, 0.85),
                     child: InkWell(
                       highlightColor: Colors.transparent,
                       hoverColor: Colors.transparent,
                       focusColor: Colors.transparent,
-                      child: const Icon(
-                        Icons.info,
-                        color: Colors.deepOrange,
-                        size: 32.0,
+                      child: Image.asset(
+                        'lib/assets/images/top-scores-icon.jpeg',
+                        width: MediaQuery.of(context).size.width * 0.12,
                       ),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const InfoPage()),
+                              builder: (context) => const TopScores()),
                         );
                       },
                     ),

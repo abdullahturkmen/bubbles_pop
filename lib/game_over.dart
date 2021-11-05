@@ -25,13 +25,14 @@ class GameOver extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.star,
-                      size: 40,
+                    Image.asset(
+                      'lib/assets/images/score-icon.png',
+                      width: 35,
                     ),
                     Text(
                       scoreCount,
-                      style: TextStyle(fontSize: 30),
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

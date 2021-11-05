@@ -53,9 +53,9 @@ class _GamePageState extends State<GamePage> {
 
   void bubblePosition() {
     Random rnd = Random();
-    int min = -100, max = 100;
-    xPos = (rnd.nextInt(max - min) / 100) - 1;
-    yPos = (rnd.nextInt(max - min) / 100) - 1;
+    int minX = -98, maxX = 98, minY = -90, maxY = 90;
+    xPos = (rnd.nextInt(maxX - minX) / 100) - 0.98;
+    yPos = (rnd.nextInt(maxY - minY) / 100) - 0.9;
   }
 
   void _startSound() async {
@@ -121,18 +121,22 @@ class _GamePageState extends State<GamePage> {
                 padding: const EdgeInsets.fromLTRB(5, 1, 5, 1),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.amber,
+                  color: Color(0xFF151B2B),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Icon(
-                      Icons.star,
+                    Image.asset(
+                      'lib/assets/images/score-icon.png',
+                      width: 25,
                     ),
+                    SizedBox(width: 5),
                     Text(
                       score.toString(),
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.amber),
                     ),
                   ],
                 ),
@@ -182,7 +186,7 @@ class _GamePageState extends State<GamePage> {
                   height: ballSize,
                   ringColor: Colors.grey,
                   ringGradient: null,
-                  fillColor: Colors.purpleAccent,
+                  fillColor: Color(0xFF151B2B),
                   fillGradient: null,
                   backgroundColor: Colors.purple[500],
                   backgroundGradient: null,
