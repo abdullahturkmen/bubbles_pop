@@ -85,6 +85,25 @@ class _StartGameState extends State<StartGame> {
                       },
                     ),
                   ),
+                  Container(
+                    alignment: const Alignment(-0.9, 0.85),
+                    child: InkWell(
+                      highlightColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      child: Icon(
+                        Icons.info_outline,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const InfoPage()),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             );

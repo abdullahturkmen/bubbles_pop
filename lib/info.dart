@@ -36,6 +36,16 @@ class InfoPage extends StatelessWidget {
               ),
               SizedBox(height: 100),
               ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xFF151B2B)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Color(0xFF151B2B), width: 2.0),
+                    ),
+                  ),
+                ),
                 child: const Text("Kapat"),
                 onPressed: () {
                   Navigator.pop(context);

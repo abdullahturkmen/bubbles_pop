@@ -43,8 +43,11 @@ class _GamePageState extends State<GamePage> {
 
   CountDownController _controller = CountDownController();
 
+  int health = 3;
+  int score = 0;
   int _counter = 4;
   double ballSize = 60;
+  bool volume = true;
 
   double xPos = 0;
   double yPos = 0;
@@ -56,6 +59,17 @@ class _GamePageState extends State<GamePage> {
     int minX = -98, maxX = 98, minY = -90, maxY = 90;
     xPos = (rnd.nextInt(maxX - minX) / 100) - 0.98;
     yPos = (rnd.nextInt(maxY - minY) / 100) - 0.9;
+  }
+
+  void gameVolume() {
+    if (volume == true) {
+      player.setVolume(0);
+      volume = false;
+    } else {
+      player.setVolume(1);
+      volume = true;
+    }
+    setState(() {});
   }
 
   void _startSound() async {
@@ -78,7 +92,6 @@ class _GamePageState extends State<GamePage> {
     super.dispose();
   }
 
-  int score = 0;
   void changePosition() {
     setState(() {
       _controllerCenter.play();
@@ -126,6 +139,19 @@ class _GamePageState extends State<GamePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Icon(
+                      Icons.health_and_safety_rounded,
+                      color: Colors.blue.shade400,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      health.toString(),
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.blue),
+                    ),
+                    SizedBox(width: 5),
                     Image.asset(
                       'lib/assets/images/score-icon.png',
                       width: 25,
@@ -186,9 +212,9 @@ class _GamePageState extends State<GamePage> {
                   height: ballSize,
                   ringColor: Colors.grey,
                   ringGradient: null,
-                  fillColor: Color(0xFF151B2B),
+                  fillColor: Colors.redAccent,
                   fillGradient: null,
-                  backgroundColor: Colors.purple[500],
+                  backgroundColor: Color(0xFF151B2B),
                   backgroundGradient: null,
                   strokeWidth: 5.0,
                   strokeCap: StrokeCap.round,
@@ -210,14 +236,44 @@ class _GamePageState extends State<GamePage> {
                     player.setSpeed(2.0);
                     player.play();
                     //print('Countdown Ended');
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                GameOver(scoreCount: score.toString())));
+
+                    if (health > 1) {
+                      changePosition;
+                      setState(() {
+                        health--;
+                      });
+                    } else {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  GameOver(scoreCount: score.toString())));
+                    }
                   },
                 ),
               ),
+            ),
+          ),
+          Container(
+            alignment: const Alignment(-0.95, -0.98),
+            child: InkWell(
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              child: volume
+                  ? Icon(
+                      Icons.volume_up,
+                      size: 30,
+                    )
+                  : Icon(
+                      Icons.volume_off,
+                      size: 30,
+                    ),
+              onTap: () {
+                setState(() {
+                  gameVolume();
+                });
+              },
             ),
           ),
         ],
