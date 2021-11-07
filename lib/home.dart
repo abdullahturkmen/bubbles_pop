@@ -1,6 +1,6 @@
 import 'package:bubbles_pop/scores.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'game.dart';
 import 'info.dart';
 
@@ -12,6 +12,37 @@ class StartGame extends StatefulWidget {
 }
 
 class _StartGameState extends State<StartGame> {
+  bool volume = true;
+
+  _setVolumeSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (volume == true) {
+      //player.setVolume(0);
+      await prefs.setBool('volume', false);
+      volume = false;
+    } else {
+      //player.setVolume(1);
+      await prefs.setBool('volume', true);
+      volume = true;
+    }
+    setState(() {});
+  }
+
+  _getVolumeSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {});
+    return volume = prefs.getBool('volume') ?? true;
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      _getVolumeSettings();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -101,6 +132,28 @@ class _StartGameState extends State<StartGame> {
                           MaterialPageRoute(
                               builder: (context) => const InfoPage()),
                         );
+                      },
+                    ),
+                  ),
+                  Container(
+                    alignment: const Alignment(-0.9, -0.9),
+                    child: InkWell(
+                      highlightColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      child: volume
+                          ? Icon(
+                              Icons.volume_up,
+                              size: 30,
+                            )
+                          : Icon(
+                              Icons.volume_off,
+                              size: 30,
+                            ),
+                      onTap: () {
+                        setState(() {
+                          _setVolumeSettings();
+                        });
                       },
                     ),
                   ),

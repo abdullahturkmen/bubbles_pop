@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:confetti/confetti.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -44,10 +45,10 @@ class _GamePageState extends State<GamePage> {
   CountDownController _controller = CountDownController();
 
   int health = 3;
+  bool volume = true;
   int score = 0;
   int _counter = 4;
   double ballSize = 60;
-  bool volume = true;
 
   double xPos = 0;
   double yPos = 0;
@@ -61,15 +62,24 @@ class _GamePageState extends State<GamePage> {
     yPos = (rnd.nextInt(maxY - minY) / 100) - 0.9;
   }
 
-  void gameVolume() {
+  _getVolumeSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    volume = prefs.getBool('volume') ?? true;
+
     if (volume == true) {
-      player.setVolume(0);
-      volume = false;
-    } else {
       player.setVolume(1);
-      volume = true;
+      //await prefs.setBool('volume', false);
+      //volume = false;
+    } else {
+      player.setVolume(0);
+      //await prefs.setBool('volume', true);
+      //volume = true;
     }
+
     setState(() {});
+
+    return volume = prefs.getBool('volume') ?? true;
   }
 
   void _startSound() async {
@@ -81,6 +91,10 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      _getVolumeSettings();
+    });
+
     _startSound();
     _controllerCenter =
         ConfettiController(duration: const Duration(milliseconds: 10));
@@ -154,7 +168,7 @@ class _GamePageState extends State<GamePage> {
                     SizedBox(width: 5),
                     Image.asset(
                       'lib/assets/images/score-icon.png',
-                      width: 25,
+                      width: 20,
                     ),
                     SizedBox(width: 5),
                     Text(
@@ -252,28 +266,6 @@ class _GamePageState extends State<GamePage> {
                   },
                 ),
               ),
-            ),
-          ),
-          Container(
-            alignment: const Alignment(-0.95, -0.98),
-            child: InkWell(
-              highlightColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              focusColor: Colors.transparent,
-              child: volume
-                  ? Icon(
-                      Icons.volume_up,
-                      size: 30,
-                    )
-                  : Icon(
-                      Icons.volume_off,
-                      size: 30,
-                    ),
-              onTap: () {
-                setState(() {
-                  gameVolume();
-                });
-              },
             ),
           ),
         ],
