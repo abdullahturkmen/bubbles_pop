@@ -1,4 +1,9 @@
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
+
+import 'dart:math';
+
 import 'package:bubbles_pop/scores.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'game.dart';
@@ -12,7 +17,15 @@ class StartGame extends StatefulWidget {
 }
 
 class _StartGameState extends State<StartGame> {
+  final myController = TextEditingController();
   bool volume = true;
+  var userID;
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
+  }
 
   _setVolumeSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,10 +48,33 @@ class _StartGameState extends State<StartGame> {
     return volume = prefs.getBool('volume') ?? true;
   }
 
+  _setUserID(userdata) async {
+    var now = DateTime.now();
+    var id = now.toString() + " - " + Random().nextInt(10000).toString();
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference user_scores =
+        FirebaseFirestore.instance.collection('user_scores');
+    user_scores.doc(id).set({'id': id, 'user_name': userdata, 'user_score': 0});
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("userID", id);
+    setState(() {});
+    return userID = prefs.getString('userID') ?? null;
+  }
+
+  _getUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //await prefs.clear();
+    setState(() {});
+    return userID = prefs.getString('userID') ?? null;
+  }
+
   @override
   void initState() {
     setState(() {
       _getVolumeSettings();
+      _getUserID();
     });
     super.initState();
   }
@@ -63,39 +99,98 @@ class _StartGameState extends State<StartGame> {
                   ),
                   Container(
                     alignment: const Alignment(0, 0.5),
-                    child: ElevatedButton(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Oyuna Başla",
-                              style: TextStyle(fontSize: 18)),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          const Icon(
-                            Icons.play_arrow,
-                          ),
-                        ],
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xFF151B2B)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
+                    child: userID == null
+                        ? Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: TextField(
+                                  controller: myController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Kullanıcı Adınız',
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              ElevatedButton(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text("kaydet",
+                                        style: TextStyle(fontSize: 18)),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Icon(
+                                      Icons.check,
+                                    ),
+                                  ],
+                                ),
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.black87),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.greenAccent),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18.0),
                                       side: BorderSide(
-                                          color: Color(0xFF151B2B),
-                                          width: 2.0)))),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MyApp()),
-                        );
-                      },
-                    ),
+                                          color: Colors.greenAccent,
+                                          width: 2.0),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _setUserID(myController.text);
+                                  });
+                                },
+                              ),
+                            ],
+                          )
+                        : ElevatedButton(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text("Oyuna Başla",
+                                    style: TextStyle(fontSize: 18)),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Icon(
+                                  Icons.play_arrow,
+                                ),
+                              ],
+                            ),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Color(0xFF151B2B)),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                        side: BorderSide(
+                                            color: Color(0xFF151B2B),
+                                            width: 2.0)))),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MyApp()),
+                              );
+                            },
+                          ),
                   ),
                   Container(
                     alignment: const Alignment(0.9, 0.85),
@@ -111,7 +206,9 @@ class _StartGameState extends State<StartGame> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const TopScores()),
+                            builder: (context) =>
+                                TopScores(userID: userID.toString()),
+                          ),
                         );
                       },
                     ),

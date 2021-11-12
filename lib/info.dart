@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatelessWidget {
@@ -7,6 +9,7 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         color: Color(0xFFF0EEE1),
         child: Center(
           child: Column(
@@ -16,25 +19,20 @@ class InfoPage extends StatelessWidget {
                 "Teşekkürler",
                 style: TextStyle(fontSize: 20),
               ),
-              SizedBox(height: 100),
-              Text(
-                "Özgür Kaygusuz",
-                style: TextStyle(fontSize: 28),
+              SizedBox(height: 50),
+              Card(
+                child: ListTile(
+                  title: Text('Özgür KAYGUSUZ'),
+                  subtitle: Text('Senarist / Elektrik-Elektronik Müh.'),
+                ),
               ),
-              Text(
-                "Senarist",
-                style: TextStyle(fontSize: 18),
+              Card(
+                child: ListTile(
+                  title: Text('Abdullah TÜRKMEN'),
+                  subtitle: Text('Yazılımcı / Front End Dev.'),
+                ),
               ),
-              SizedBox(height: 30),
-              Text(
-                "Abdullah Türkmen",
-                style: TextStyle(fontSize: 28),
-              ),
-              Text(
-                "Yazılımcı",
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 100),
+              SizedBox(height: 50),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:

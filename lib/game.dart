@@ -1,8 +1,9 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 
 import 'dart:math';
 import 'package:bubbles_pop/game_over.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:confetti/confetti.dart';
@@ -42,16 +43,17 @@ class _GamePageState extends State<GamePage> {
 
   late ConfettiController _controllerCenter;
 
-  CountDownController _controller = CountDownController();
+  final CountDownController _controller = CountDownController();
 
   int health = 3;
   bool volume = true;
   int score = 0;
   int _counter = 4;
   double ballSize = 60;
+  bool beforeStarted = true;
 
   double xPos = 0;
-  double yPos = 0;
+  double yPos = -0.3;
 
   final player = AudioPlayer();
 
@@ -108,23 +110,28 @@ class _GamePageState extends State<GamePage> {
 
   void changePosition() {
     setState(() {
+      beforeStarted = false;
       _controllerCenter.play();
       bubblePosition();
       score++;
-      if (score < 10) {
+      if (score < 15) {
         ballSize = ballSize;
-      } else if (score < 20) {
-        ballSize = 55;
-        _counter = 3;
       } else if (score < 30) {
-        ballSize = 50;
-      } else if (score < 40) {
+        ballSize = 57;
+        _counter = 3;
+      } else if (score < 45) {
+        ballSize = 54;
+      } else if (score < 60) {
+        ballSize = 51;
+      } else if (score < 75) {
+        ballSize = 48;
+      } else if (score < 90) {
         ballSize = 45;
         _counter = 2;
-      } else if (score < 50) {
-        ballSize = 40;
+      } else if (score < 105) {
+        ballSize = 45;
       } else {
-        ballSize = 35;
+        ballSize = 42;
         _counter = 1;
       }
 
@@ -141,14 +148,14 @@ class _GamePageState extends State<GamePage> {
       child: Stack(
         children: [
           Container(
-            color: Color(0xFFF0EEE1),
+            color: const Color(0xFFF0EEE1),
             alignment: const Alignment(0.95, -0.98),
             child: FittedBox(
               child: Container(
                 padding: const EdgeInsets.fromLTRB(5, 1, 5, 1),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Color(0xFF151B2B),
+                  color: const Color(0xFF151B2B),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -157,7 +164,7 @@ class _GamePageState extends State<GamePage> {
                       Icons.health_and_safety_rounded,
                       color: Colors.blue.shade400,
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Text(
                       health.toString(),
                       style: const TextStyle(
@@ -165,12 +172,12 @@ class _GamePageState extends State<GamePage> {
                           fontWeight: FontWeight.w500,
                           color: Colors.blue),
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Image.asset(
                       'lib/assets/images/score-icon.png',
                       width: 20,
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Text(
                       score.toString(),
                       style: const TextStyle(
@@ -228,11 +235,11 @@ class _GamePageState extends State<GamePage> {
                   ringGradient: null,
                   fillColor: Colors.redAccent,
                   fillGradient: null,
-                  backgroundColor: Color(0xFF151B2B),
+                  backgroundColor: const Color(0xFF151B2B),
                   backgroundGradient: null,
                   strokeWidth: 5.0,
                   strokeCap: StrokeCap.round,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontSize: 33.0,
                       color: Colors.white,
                       fontWeight: FontWeight.bold),
@@ -240,7 +247,7 @@ class _GamePageState extends State<GamePage> {
                   isReverse: true,
                   isReverseAnimation: true,
                   isTimerTextShown: false,
-                  autoStart: true,
+                  autoStart: false,
                   onStart: () {
                     //print('Countdown Started');
                   },
@@ -255,21 +262,50 @@ class _GamePageState extends State<GamePage> {
                       changePosition;
                       setState(() {
                         health--;
+                        xPos = 0;
+                        yPos = -0.3;
+                        beforeStarted = true;
                       });
                     } else {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  GameOver(scoreCount: score.toString())));
+                                  GameOver(scoreCount: score)));
                     }
                   },
                 ),
               ),
             ),
           ),
+          Container(
+            alignment: const Alignment(0, 0.4),
+            child: getBeforeStartedWidget(),
+          ),
         ],
       ),
     );
+  }
+
+  getBeforeStartedWidget() {
+    return beforeStarted == true
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'lib/assets/images/hand-click-icon.png',
+                width: MediaQuery.of(context).size.width * 0.4,
+              ),
+              SizedBox(height: 30),
+              const Text(
+                "Hazır olduğunuzda balona tıklayın!",
+                style: TextStyle(
+                    color: Color(0xFFFF6600),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          )
+        : null;
   }
 }
