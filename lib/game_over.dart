@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 
+import 'dart:math';
+
 import 'package:bubbles_pop/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +25,23 @@ class _GameOverState extends State<GameOver> {
   Query<Map<String, dynamic>> userScors = firestore.collection('user_scores');
   var userID;
   var userDetailsData = [];
+  var firstGameMessages = [
+    'Harika! Başlangıç için güzel iş çıkardın!',
+    'Muhteşem! Senin için kolay olacağını biliyordum :)',
+    'Sen bir dehasın!'
+  ];
+
+  var newScoreMessages = [
+    'İşte bu. Rekor nasıl kırılır göster onlara',
+    'Bu senin yeni rekorun. Kendini geliştiriyorsun :)',
+    'Azimli bir insan olduğunu biliyordum!'
+  ];
+
+  var lowScoreMessages = [
+    'Güzel bir oyundu fakat kendi rekorunu kıramadın',
+    'Rekor puanın değişmedi. Bence tekrar denemelisin',
+    'Bu bir yenilgi değil. Tekrar oyna'
+  ];
 
   _getUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,12 +90,13 @@ class _GameOverState extends State<GameOver> {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
                   "Oyun Bitti",
                   style: TextStyle(fontSize: 20),
                 ),
-                const SizedBox(height: 30),
+                getScoreText(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -168,5 +188,42 @@ class _GameOverState extends State<GameOver> {
             ),
           )),
     );
+  }
+
+  getScoreText() {
+    return userDetailsData.length > 0
+        ? Container(
+            margin: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: userDetailsData[0]['user_score'] == 0
+                ? Text(
+                    firstGameMessages[
+                            Random().nextInt(firstGameMessages.length)]
+                        .toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 26),
+                  )
+                : Center(
+                    child: userDetailsData[0]['user_score'] < widget.scoreCount
+                        ? Text(
+                            newScoreMessages[
+                                    Random().nextInt(newScoreMessages.length)]
+                                .toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 26),
+                          )
+                        : Text(
+                            lowScoreMessages[
+                                    Random().nextInt(lowScoreMessages.length)]
+                                .toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          )),
+          )
+        : SizedBox(height: 30);
   }
 }
