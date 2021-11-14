@@ -45,6 +45,16 @@ class _GamePageState extends State<GamePage> {
 
   final CountDownController _controller = CountDownController();
 
+  Color start_color = Color(0xFFF0EEE1);
+
+  changeBackground() {
+    Color color = Color.fromARGB(150, Random().nextInt(256),
+        Random().nextInt(256), Random().nextInt(256));
+    setState(() {
+      start_color = color;
+    });
+  }
+
   int health = 3;
   bool volume = true;
   int score = 0;
@@ -62,6 +72,10 @@ class _GamePageState extends State<GamePage> {
     int minX = -98, maxX = 98, minY = -90, maxY = 90;
     xPos = (rnd.nextInt(maxX - minX) / 100) - 0.98;
     yPos = (rnd.nextInt(maxY - minY) / 100) - 0.9;
+  }
+
+  changeBallSize() {
+    ballSize = Random().nextInt(50) + 35;
   }
 
   _getVolumeSettings() async {
@@ -135,6 +149,14 @@ class _GamePageState extends State<GamePage> {
         _counter = 1;
       }
 
+      if (score % 100 == 0) {
+        changeBackground();
+      }
+
+      if (score > 150) {
+        changeBallSize();
+      }
+
       _controller.restart(duration: _counter);
       player.setAsset('lib/assets/sounds/dong-sound.mp3');
       player.setSpeed(2.0);
@@ -148,7 +170,7 @@ class _GamePageState extends State<GamePage> {
       child: Stack(
         children: [
           Container(
-            color: const Color(0xFFF0EEE1),
+            color: start_color,
             alignment: const Alignment(0.95, -0.98),
             child: FittedBox(
               child: Container(
