@@ -128,9 +128,7 @@ class _GamePageState extends State<GamePage> {
       _controllerCenter.play();
       bubblePosition();
       score++;
-      if (score < 15) {
-        ballSize = ballSize;
-      } else if (score < 30) {
+      if (score < 30) {
         ballSize = 57;
         _counter = 3;
       } else if (score < 45) {
@@ -153,7 +151,7 @@ class _GamePageState extends State<GamePage> {
         changeBackground();
       }
 
-      if (score > 150) {
+      if (score > 120) {
         changeBallSize();
       }
 

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bubbles_pop">
+    package="com.abdullahturkmen.bubbles_pop">
    <application
         android:label="Bubbles Pop"
         android:icon="@mipmap/ic_launcher">
@@ -38,4 +38,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-permission android:name="string"
+        android:maxSdkVersion="18" />
 </manifest>

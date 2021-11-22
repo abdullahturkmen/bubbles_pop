@@ -20,6 +20,7 @@ class _StartGameState extends State<StartGame> {
   final myController = TextEditingController();
   bool volume = true;
   var userID;
+  bool _validate = false;
 
   @override
   void dispose() {
@@ -109,7 +110,10 @@ class _StartGameState extends State<StartGame> {
                                 child: TextField(
                                   controller: myController,
                                   decoration: InputDecoration(
-                                    hintText: 'Kullanıcı Adınız',
+                                    labelText: 'Kullanıcı Adınız',
+                                    errorText: _validate
+                                        ? 'En az 5 karakter ve boş olmamalı!'
+                                        : null,
                                   ),
                                 ),
                               ),
@@ -121,7 +125,7 @@ class _StartGameState extends State<StartGame> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: const [
-                                    Text("kaydet",
+                                    Text("Kaydet",
                                         style: TextStyle(fontSize: 18)),
                                     SizedBox(
                                       width: 5,
@@ -150,7 +154,13 @@ class _StartGameState extends State<StartGame> {
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _setUserID(myController.text);
+                                    var userNameControl =
+                                        myController.text.replaceAll('  ', '');
+
+                                    userNameControl.isEmpty ||
+                                            userNameControl.length < 5
+                                        ? _validate = true
+                                        : _setUserID(userNameControl);
                                   });
                                 },
                               ),
